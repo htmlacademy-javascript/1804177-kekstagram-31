@@ -9,6 +9,14 @@ const NAMES = [
   'Аркадий',
 ];
 
+const DESCRIPTION = [
+  'Чудесный пейзаж',
+  'Передо мной интересная фотография',
+  'Кекс и корм',
+  'Работа не волк',
+  'Кормлю голубей',
+];
+
 const MESSAGES = [
   'В целом всё неплохо. Но не всё.',
   'Я поскользнулся на банановой кожуре и уронил фотоаппарат на кота и у меня получилась фотография лучше.',
@@ -21,15 +29,25 @@ function getRandomInteger(min, max) {
 
   return Math.floor(result);
 }
+
 const getRandomArrayElement = (element) => element[getRandomInteger(0, element.length - 1)];
+
+const generateComments = function () {
+  return {
+    id : getRandomInteger(1, 25),
+    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
+    message: getRandomArrayElement(MESSAGES),
+    name: getRandomArrayElement(NAMES),
+  };
+};
 
 const createUserData = function () {
   return {
     id: getRandomInteger(1, 25),
-    avatar: `img/avatar-${getRandomInteger(1, 6)}.svg`,
-    like: getRandomInteger(1, 6),
-    message: getRandomArrayElement(MESSAGES),
-    name: getRandomArrayElement(NAMES),
+    url: `photos/${getRandomInteger(1, 25)}.jpg`,
+    description: getRandomArrayElement(DESCRIPTION),
+    like: getRandomInteger(15, 200),
+    comments: Array.from({length: getRandomInteger(0, 30)}, generateComments),
   };
 };
 
