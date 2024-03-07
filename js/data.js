@@ -43,6 +43,6 @@ const createUserData = function () {
   };
 };
 
-const userData = Array.from({length: 25}, createUserData);
+const userData = () => Array.from({length: 25}, createUserData);
 
 export {userData};
