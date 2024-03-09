@@ -1,2 +1,6 @@
 import './util.js';
-import './data.js';
+import { getUserData } from './data.js';
+import {renderPictures} from './rendering.js';
+
+renderPictures(getUserData());
+
