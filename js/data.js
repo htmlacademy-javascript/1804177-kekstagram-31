@@ -45,4 +45,4 @@ const createUserData = function () {
 
 const getUserData = () => Array.from({length: 25}, createUserData);
 
-export {getUserData, createUserData};
+export {getUserData};

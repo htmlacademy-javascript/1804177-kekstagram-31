@@ -6,23 +6,23 @@ const pictureTemplate = document.querySelector('#picture')
   .content.querySelector('.picture');
 const dataListFragment = document.createDocumentFragment();
 
-const createElementData = (item) => {
+const createPictureElementData = (picture) => {
   const pictureElement = pictureTemplate.cloneNode(true);
-  pictureElement.querySelector('.picture__img').src = item.url;
-  pictureElement.querySelector('.picture__img').alt = item.description;
-  pictureElement.querySelector('.picture__comments').textContent = item.comments.length;
-  pictureElement.querySelector('.picture__likes').textContent = item.like;
+  pictureElement.querySelector('.picture__img').src = picture.url;
+  pictureElement.querySelector('.picture__img').alt = picture.description;
+  pictureElement.querySelector('.picture__comments').textContent = picture.comments.length;
+  pictureElement.querySelector('.picture__likes').textContent = picture.like;
   pictureElement.addEventListener('click', (evt) => {
-    renderFullPictureDate(item);
+    renderFullPictureDate(picture);
     openUserModal(evt);
   });
   return pictureElement;
 };
 
-const renderPictures = (userData) => {
-  userData.forEach((item) => {
-    const picture = createElementData(item);
-    dataListFragment.appendChild(picture);
+const renderPictures = (pictures) => {
+  pictures.forEach((picture) => {
+    const renderPicture = createPictureElementData(picture);
+    dataListFragment.appendChild(renderPicture);
   });
   pictureList.appendChild(dataListFragment);
 };
