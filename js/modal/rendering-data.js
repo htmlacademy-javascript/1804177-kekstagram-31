@@ -1,4 +1,4 @@
-import {renderComment} from './render-comments.js';
+import {initialRenderComments} from './render-comments.js';
 
 const bigPicture = document.querySelector('.big-picture');
 
@@ -7,7 +7,7 @@ const renderFullPictureDate = (item) => {
   bigPicture.querySelector('.social__caption').textContent = item.description;
   bigPicture.querySelector('.social__comment-total-count').textContent = item.comments.length;
   bigPicture.querySelector('.likes-count').textContent = item.like;
-  renderComment(item.comments);
+  initialRenderComments(item.comments);
 };
 
 export {renderFullPictureDate};
