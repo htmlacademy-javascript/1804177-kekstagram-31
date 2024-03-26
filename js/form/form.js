@@ -18,7 +18,7 @@ const isValidForm = (value) => {
   const inputValue = value.toLowerCase().trim();
   const inputArray = inputValue.split(' ');
 
-  if (!inputArray) {
+  if (value.length === 0 || !inputArray) {
     return true;
   }
 
@@ -66,7 +66,6 @@ const formSubmit = (evt) => {
   evt.preventDefault();
 
   if (pristine.validate()) {
-    hashtagsInput.value = hashtagsInput.value.trim().replaceAll('', ' ');
     uploadForm.submit();
   }
 };

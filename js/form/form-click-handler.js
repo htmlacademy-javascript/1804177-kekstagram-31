@@ -19,14 +19,13 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
-const uploadFiles = () => {
-  uploadInput.addEventListener('change', () => {
-    uploadOverlay.classList.remove('hidden');
-    document.body.classList.add('modal-open');
-    uploadCancel.addEventListener('click', closeUploadModal);
-    document.addEventListener('keydown', onDocumentKeydown);
-  });
-};
+uploadInput.addEventListener('change', () => {
+  uploadOverlay.classList.remove('hidden');
+  document.body.classList.add('modal-open');
+  uploadCancel.addEventListener('click', closeUploadModal);
+  document.addEventListener('keydown', onDocumentKeydown);
+});
+
 
 function closeUploadModal() {
   uploadOverlay.classList.add('hidden');
@@ -35,5 +34,3 @@ function closeUploadModal() {
   uploadCancel.removeEventListener('click', closeUploadModal);
   uploadInput.value = '';
 }
-
-export {uploadFiles};
