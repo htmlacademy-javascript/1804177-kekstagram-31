@@ -55,6 +55,5 @@ const clearComments = () => {
   socialCommentCount.textContent = 0;
   socialCommentsLoader.classList.remove('hidden');
   socialCommentsLoader.removeEventListener('click', renderHandler);
-};
 
 export {initialRenderComments, clearComments};
