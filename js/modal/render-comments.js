@@ -1,13 +1,11 @@
 const socialComments = document.querySelector('.social__comments');
 const socialComment = socialComments.querySelector('.social__comment');
 const socialCommentCount = document.querySelector('.social__comment-shown-count');
-const socialCommentLosader = document.querySelector('.social__comments-loader');
-const COUNT_STEP = 5;
-let currentCount = 0;
-let comments = [];
+const socialCommentsLoader = document.querySelector('.social__comments-loader');
 const dataListFragment = document.createDocumentFragment();
+let renderHandler;
 
-const createCommentElementData = (comment) => {
+const createCommentElement = (comment) => {
   const commentElement = socialComment.cloneNode(true);
   commentElement.querySelector('.social__picture').src = comment.avatar;
   commentElement.querySelector('.social__picture').alt = comment.name;
@@ -15,34 +13,48 @@ const createCommentElementData = (comment) => {
   return commentElement;
 };
 
-const renderComments = () => {
-  const arrComments = comments.slice(currentCount, currentCount + COUNT_STEP);
-  const arrCommentsLength = arrComments.length + currentCount;
-
-  arrComments.forEach((comment) => {
-    const commentElement = createCommentElementData(comment);
+const renderCommentsToDataList = (slicedComments) => {
+  slicedComments.forEach((comment) => {
+    const commentElement = createCommentElement(comment);
     dataListFragment.appendChild(commentElement);
   });
-
-  socialComments.appendChild(dataListFragment);
-  socialCommentCount.textContent = arrCommentsLength;
-
-  if (arrCommentsLength >= comments.length) {
-    socialCommentLosader.classList.add('hidden');
-  }
-  currentCount += COUNT_STEP;
 };
 
-const renderComment = (currentComment) => {
-  comments = currentComment;
-  renderComments();
-  socialCommentLosader.addEventListener('click', renderComments);
+const renderComments = (currentComment) => {
+  socialComments.innerHTML = '';
+  let currentCount = 0;
+  let comments = [];
+
+  return () => {
+    comments = currentComment;
+    const COUNT_STEP = 5;
+    const slicedComments = comments.slice(currentCount, currentCount + COUNT_STEP);
+    const currentCommentsCount = String(slicedComments.length + currentCount);
+
+    renderCommentsToDataList(slicedComments);
+    socialComments.appendChild(dataListFragment);
+    socialCommentCount.textContent = currentCommentsCount;
+
+    if (currentCommentsCount >= comments.length) {
+      socialCommentsLoader.classList.add('hidden');
+    }
+    currentCount += COUNT_STEP;
+  };
+};
+
+const initialRenderComments = (currentComment) => {
+  const render = renderComments(currentComment);
+  renderHandler = render;
+  render();
+
+  socialCommentsLoader.addEventListener('click', render);
 };
 
 const clearComments = () => {
-  currentCount = 0;
-  socialCommentLosader.classList.remove('hidden');
-  socialCommentLosader.removeEventListener('click', renderComment);
+  socialComments.innerHTML = '';
+  socialCommentCount.textContent = 0;
+  socialCommentsLoader.classList.remove('hidden');
+  socialCommentsLoader.removeEventListener('click', renderHandler);
 };
 
-export {renderComment, clearComments};
+export {initialRenderComments, clearComments};
