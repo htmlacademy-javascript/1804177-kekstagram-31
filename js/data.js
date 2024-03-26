@@ -1,4 +1,4 @@
-import {getRandomArrayElement, getRandomInteger} from './util.js';
+import {getRandomArrayElement, getRandomInteger, generateUniqueRandomNumber} from './util.js';
 
 const NAMES = [
   'Игорь',
@@ -36,7 +36,7 @@ const generateComments = function () {
 const createUserData = function () {
   return {
     id: getRandomInteger(1, 25),
-    url: `photos/${getRandomInteger(1, 25)}.jpg`,
+    url: `photos/${generateUniqueRandomNumber()}.jpg`,
     description: getRandomArrayElement(DESCRIPTION),
     like: getRandomInteger(15, 200),
     comments: Array.from({length: getRandomInteger(0, 30)}, generateComments),
