@@ -3,6 +3,7 @@ const socialComment = socialComments.querySelector('.social__comment');
 const socialCommentCount = document.querySelector('.social__comment-shown-count');
 const socialCommentsLoader = document.querySelector('.social__comments-loader');
 const dataListFragment = document.createDocumentFragment();
+let renderHandler;
 
 const createCommentElement = (comment) => {
   const commentElement = socialComment.cloneNode(true);
@@ -12,22 +13,29 @@ const createCommentElement = (comment) => {
   return commentElement;
 };
 
+const renderCommentsToDataList = (slicedComments) => {
+  slicedComments.forEach((comment) => {
+    const commentElement = createCommentElement(comment);
+    dataListFragment.appendChild(commentElement);
+  });
+};
+
 const renderComments = (currentComment) => {
+  socialComments.innerHTML = '';
   let currentCount = 0;
   let comments = [];
+
   return () => {
     comments = currentComment;
     const COUNT_STEP = 5;
-    const arrComments = comments.slice(currentCount, currentCount + COUNT_STEP);
-    const arrCommentsLength = arrComments.length + currentCount;
-    arrComments.forEach((comment) => {
-      const commentElement = createCommentElement(comment);
-      dataListFragment.appendChild(commentElement);
-    });
+    const slicedComments = comments.slice(currentCount, currentCount + COUNT_STEP);
+    const currentCommentsCount = String(slicedComments.length + currentCount);
 
+    renderCommentsToDataList(slicedComments);
     socialComments.appendChild(dataListFragment);
-    socialCommentCount.textContent = arrCommentsLength;
-    if (arrCommentsLength >= comments.length) {
+    socialCommentCount.textContent = currentCommentsCount;
+
+    if (currentCommentsCount >= comments.length) {
       socialCommentsLoader.classList.add('hidden');
     }
     currentCount += COUNT_STEP;
@@ -36,14 +44,17 @@ const renderComments = (currentComment) => {
 
 const initialRenderComments = (currentComment) => {
   const render = renderComments(currentComment);
+  renderHandler = render;
+  render();
 
   socialCommentsLoader.addEventListener('click', render);
 };
+
 const clearComments = () => {
   socialComments.innerHTML = '';
   socialCommentCount.textContent = 0;
   socialCommentsLoader.classList.remove('hidden');
-  socialCommentsLoader.removeEventListener('click', initialRenderComments);
+  socialCommentsLoader.removeEventListener('click', renderHandler);
 };
 
 export {initialRenderComments, clearComments};
