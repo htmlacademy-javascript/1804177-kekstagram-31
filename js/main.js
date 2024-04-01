@@ -1,10 +1,18 @@
-import './util.js';
-import {getUserData} from './data.js';
+import {showErrorMessage} from './util.js';
 import {renderPictures} from './rendering.js';
-import {modalClickHandler} from './modal/modal-click-handler.js';
+import './modal/modal-click-handler.js';
 import './form/form.js';
 import './form/form-click-handler.js';
 import './form/image-editor.js';
+import {getData} from './api.js';
 
-renderPictures(getUserData());
-modalClickHandler();
+const bootstrap = async () => {
+  try {
+    const getPictures = await getData();
+    renderPictures(getPictures);
+  } catch (error) {
+    showErrorMessage(error.message);
+  }
+};
+
+await bootstrap();

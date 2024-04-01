@@ -28,8 +28,4 @@ function closeUserModal() {
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
-const modalClickHandler = () => {
-  bigPictureClose.addEventListener('click', () => closeUserModal());
-};
-
-export {modalClickHandler};
+bigPictureClose.addEventListener('click', () => closeUserModal());

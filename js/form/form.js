@@ -1,10 +1,33 @@
+import {sendData} from '../api.js';
+import {closeUploadModal} from './form-click-handler.js';
+import {appendNotification} from './notification.js';
+
 const uploadForm = document.querySelector('#upload-select-image');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
+const formSubmitButton = uploadForm.querySelector('.img-upload__submit');
+const templateSuccsess = document.querySelector('#success').content;
+const templateError = document.querySelector('#error').content;
 const MAX_SYMBOLS_COMMENTS = 140;
 const MAX_SYMBOLS_HASHTAGS = 20;
 const MAX_HASHTAGS = 5;
 let message = '';
+
+const submitButtonText = {
+  IDLE: 'Сохранить',
+  SENDING: 'Сохраняю...'
+};
+
+const disabledSubmitButton = (text) => {
+  formSubmitButton.disabled = true;
+  formSubmitButton.textContent = text;
+};
+
+const enableSubmitButton = (text) => {
+  formSubmitButton.disabled = false;
+  formSubmitButton.textContent = text;
+};
+
 const errorMessage = () => message;
 
 const pristine = new Pristine(uploadForm, {
@@ -62,12 +85,24 @@ const isValidForm = (value) => {
   });
 };
 
+const sendForm = async (formElement) => {
+  if (pristine.validate()) {
+    disabledSubmitButton(submitButtonText.SENDING);
+    try {
+      await sendData(new FormData(formElement));
+      appendNotification(templateSuccsess);
+      closeUploadModal();
+    } catch (error) {
+      appendNotification(templateError);
+    } finally {
+      enableSubmitButton(submitButtonText.IDLE);
+    }
+  }
+};
+
 const formSubmit = (evt) => {
   evt.preventDefault();
-
-  if (pristine.validate()) {
-    uploadForm.submit();
-  }
+  sendForm(evt.target);
 };
 
 pristine.addValidator(commentInput, isCommentLength, `длина комментария не может составлять больше ${MAX_SYMBOLS_COMMENTS} символов`);

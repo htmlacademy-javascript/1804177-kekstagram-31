@@ -26,4 +26,22 @@ const getRandomArrayElement = (element) => element[getRandomInteger(0, element.l
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export {getRandomArrayElement, generateUniqueRandomNumber, getRandomInteger, isEscapeKey};
+const REMOVE_MESSAGE_TIMEOUT = 5000;
+const dataErrorTemplate = document.querySelector('#data-error').content;
+const body = document.body;
+
+const showErrorMessage = (message) => {
+  const errorArea = dataErrorTemplate.cloneNode(true);
+  if (message) {
+    errorArea.querySelector('.data-error__title').textContent = message;
+  }
+  body.append(errorArea);
+
+  const dataErrorArea = body.querySelector('.data-error');
+
+  setTimeout(() => {
+    dataErrorArea.remove();
+  }, REMOVE_MESSAGE_TIMEOUT);
+};
+
+export {getRandomArrayElement, generateUniqueRandomNumber, getRandomInteger, isEscapeKey, showErrorMessage};
