@@ -6,6 +6,7 @@ const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancel = uploadForm.querySelector('.img-upload__cancel');
+const effectLevelSlider = document.querySelector('.effect-level__slider');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -13,7 +14,6 @@ const onDocumentKeydown = (evt) => {
     if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
       evt.stopPropagation();
     } else {
-      uploadForm.reset();
       closeUploadModal();
     }
   }
@@ -33,4 +33,8 @@ function closeUploadModal() {
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadModal);
   uploadInput.value = '';
+  uploadForm.reset();
+  effectLevelSlider.noUiSlider.reset();
 }
+
+export {closeUploadModal};
