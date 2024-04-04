@@ -1,4 +1,5 @@
 import {isEscapeKey} from '../util.js';
+import {resetValues} from './image-editor.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -6,7 +7,6 @@ const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancel = uploadForm.querySelector('.img-upload__cancel');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -32,9 +32,8 @@ function closeUploadModal() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadModal);
-  uploadInput.value = '';
   uploadForm.reset();
-  effectLevelSlider.noUiSlider.reset();
+  resetValues();
 }
 
 export {closeUploadModal};

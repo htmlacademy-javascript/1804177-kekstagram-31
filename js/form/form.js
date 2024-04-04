@@ -6,7 +6,7 @@ const uploadForm = document.querySelector('#upload-select-image');
 const hashtagsInput = document.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const formSubmitButton = uploadForm.querySelector('.img-upload__submit');
-const templateSuccsess = document.querySelector('#success').content;
+const templateSuccess = document.querySelector('#success').content;
 const templateError = document.querySelector('#error').content;
 const MAX_SYMBOLS_COMMENTS = 140;
 const MAX_SYMBOLS_HASHTAGS = 20;
@@ -90,7 +90,7 @@ const sendForm = async (formElement) => {
     disabledSubmitButton(submitButtonText.SENDING);
     try {
       await sendData(new FormData(formElement));
-      appendNotification(templateSuccsess);
+      appendNotification(templateSuccess);
       closeUploadModal();
     } catch (error) {
       appendNotification(templateError);
