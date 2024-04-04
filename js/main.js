@@ -5,13 +5,13 @@ import './form/form.js';
 import './form/form-click-handler.js';
 import './form/image-editor.js';
 import {getData} from './api.js';
-import {configFilter} from './filter.js';
+import {configureFilters} from './filter.js';
 
 const bootstrap = async () => {
   try {
     const getPictures = await getData();
     renderPictures(getPictures);
-    configFilter(getPictures);
+    configureFilters(getPictures);
   } catch (error) {
     showErrorMessage(error.message);
   }
