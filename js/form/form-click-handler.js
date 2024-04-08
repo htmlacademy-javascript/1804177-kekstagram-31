@@ -1,12 +1,14 @@
 import {isEscapeKey} from '../util.js';
+import {resetValues} from './image-editor.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
+const uploadPreview = uploadForm.querySelector('.img-upload__preview img');
+const uploadEffectsPreview = uploadForm.querySelectorAll('.effects__preview');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
 const uploadCancel = uploadForm.querySelector('.img-upload__cancel');
-const effectLevelSlider = document.querySelector('.effect-level__slider');
 
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
@@ -20,6 +22,12 @@ const onDocumentKeydown = (evt) => {
 };
 
 uploadInput.addEventListener('change', () => {
+  const file = uploadInput.files[0];
+  uploadPreview.src = URL.createObjectURL(file);
+  uploadEffectsPreview.forEach((elem) => {
+    elem.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+  });
+
   uploadOverlay.classList.remove('hidden');
   document.body.classList.add('modal-open');
   uploadCancel.addEventListener('click', closeUploadModal);
@@ -32,9 +40,8 @@ function closeUploadModal() {
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadModal);
-  uploadInput.value = '';
   uploadForm.reset();
-  effectLevelSlider.noUiSlider.reset();
+  resetValues();
 }
 
 export {closeUploadModal};

@@ -31,7 +31,6 @@ zoomButton.addEventListener('click', () => {
   }
 });
 
-
 noUiSlider.create(effectLevelSlider, {
   range: {
     min: 0,
@@ -69,6 +68,7 @@ const effects = {
     step: 0.1
   }
 };
+
 const updateEffect = (filter) => {
   if (filter === 'invert') {
     uploadPreview.style.filter = `${filter}(${effectLevelValue.value}%)`;
@@ -103,3 +103,11 @@ effectList.addEventListener('change', (evt) => {
     uploadPreview.style.filter = 'none';
   }
 });
+
+const resetValues = () => {
+  effectLevelSlider.noUiSlider.reset();
+  initialValue = 100;
+  uploadPreviewImg.style.transform = null;
+};
+
+export {resetValues};
