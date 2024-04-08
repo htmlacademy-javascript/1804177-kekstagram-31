@@ -1,3 +1,8 @@
+const REMOVE_MESSAGE_TIMEOUT = 5000;
+const dataErrorTemplate = document.querySelector('#data-error').content;
+const body = document.body;
+const DEBOUNCE_DELAY = 500;
+
 const getRandomInteger = (min, max) => {
   const lower = Math.ceil(Math.min(Math.abs(min), Math.abs(max)));
   const upper = Math.floor(Math.max(Math.abs(min), Math.abs(max)));
@@ -26,10 +31,6 @@ const getRandomArrayElement = (element) => element[getRandomInteger(0, element.l
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const REMOVE_MESSAGE_TIMEOUT = 5000;
-const dataErrorTemplate = document.querySelector('#data-error').content;
-const body = document.body;
-
 const showErrorMessage = (message) => {
   const errorArea = dataErrorTemplate.cloneNode(true);
   if (message) {
@@ -44,7 +45,7 @@ const showErrorMessage = (message) => {
   }, REMOVE_MESSAGE_TIMEOUT);
 };
 
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay = DEBOUNCE_DELAY) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);

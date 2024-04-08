@@ -1,6 +1,7 @@
 import {isEscapeKey} from '../util.js';
 import {resetValues} from './image-editor.js';
-import {uploadPhoto} from './upload_photo.js';
+import {uploadPhoto} from './upload-photo.js';
+import {resetErrors} from './form.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
@@ -36,6 +37,7 @@ function closeUploadModal() {
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadModal);
   uploadForm.reset();
+  resetErrors();
   resetValues();
 }
 
