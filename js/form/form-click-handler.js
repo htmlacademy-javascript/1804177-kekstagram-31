@@ -1,10 +1,10 @@
 import {isEscapeKey} from '../util.js';
 import {resetValues} from './image-editor.js';
+import {uploadPhoto} from './upload-photo.js';
+import {resetErrors} from './form.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
 const uploadInput = uploadForm.querySelector('.img-upload__input');
-const uploadPreview = uploadForm.querySelector('.img-upload__preview img');
-const uploadEffectsPreview = uploadForm.querySelectorAll('.effects__preview');
 const hashtagInput = uploadForm.querySelector('.text__hashtags');
 const commentInput = uploadForm.querySelector('.text__description');
 const uploadOverlay = uploadForm.querySelector('.img-upload__overlay');
@@ -22,16 +22,12 @@ const onDocumentKeydown = (evt) => {
 };
 
 uploadInput.addEventListener('change', () => {
-  const file = uploadInput.files[0];
-  uploadPreview.src = URL.createObjectURL(file);
-  uploadEffectsPreview.forEach((elem) => {
-    elem.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
-  });
-
-  uploadOverlay.classList.remove('hidden');
-  document.body.classList.add('modal-open');
-  uploadCancel.addEventListener('click', closeUploadModal);
-  document.addEventListener('keydown', onDocumentKeydown);
+  if (uploadPhoto(uploadInput)) {
+    uploadOverlay.classList.remove('hidden');
+    document.body.classList.add('modal-open');
+    uploadCancel.addEventListener('click', closeUploadModal);
+    document.addEventListener('keydown', onDocumentKeydown);
+  }
 });
 
 
@@ -41,6 +37,7 @@ function closeUploadModal() {
   document.removeEventListener('keydown', onDocumentKeydown);
   uploadCancel.removeEventListener('click', closeUploadModal);
   uploadForm.reset();
+  resetErrors();
   resetValues();
 }
 

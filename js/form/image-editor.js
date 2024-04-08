@@ -8,6 +8,7 @@ const reductionButton = document.querySelector('.scale__control--smaller');
 const zoomButton = document.querySelector('.scale__control--bigger');
 const scaleValue = document.querySelector('.scale__control--value');
 
+effectLevel.classList.add('hidden');
 let currentEffect;
 let initialValue = 100;
 const STEP = 25;
@@ -39,6 +40,17 @@ noUiSlider.create(effectLevelSlider, {
   start: 100,
   step: 1,
   connect: 'lower',
+  format: {
+    to: function (value) {
+      if (Number.isInteger(value)) {
+        return value.toFixed(0);
+      }
+      return value.toFixed(1);
+    },
+    from: function (value) {
+      return parseFloat(value);
+    },
+  },
 });
 
 const effects = {

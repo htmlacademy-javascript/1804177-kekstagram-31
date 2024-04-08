@@ -39,7 +39,7 @@ const pristine = new Pristine(uploadForm, {
 const isCommentLength = (value) => value.length <= MAX_SYMBOLS_COMMENTS;
 const isValidForm = (value) => {
   const inputValue = value.toLowerCase().trim();
-  const inputArray = inputValue.split(' ');
+  const inputArray = inputValue.split(/\s+/);
 
   if (value.length === 0 || !inputArray) {
     return true;
@@ -108,3 +108,7 @@ const formSubmit = (evt) => {
 pristine.addValidator(commentInput, isCommentLength, `длина комментария не может составлять больше ${MAX_SYMBOLS_COMMENTS} символов`);
 pristine.addValidator(hashtagsInput, isValidForm, errorMessage);
 uploadForm.addEventListener('submit', formSubmit);
+
+const resetErrors = () => pristine.reset();
+
+export {resetErrors};
