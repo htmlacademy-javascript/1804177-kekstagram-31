@@ -10,24 +10,24 @@ const scaleValue = document.querySelector('.scale__control--value');
 
 effectLevel.classList.add('hidden');
 let currentEffect;
-let initialValue = 100;
-const STEP = 25;
+let initialScaleValue = 100;
+const scaleStep = 25;
 
 const updatePreview = () => {
-  uploadPreviewImg.style.transform = `scale(${initialValue / 100})`;
-  scaleValue.value = `${initialValue}%`;
+  uploadPreviewImg.style.transform = `scale(${initialScaleValue / 100})`;
+  scaleValue.value = `${initialScaleValue}%`;
 };
 
 reductionButton.addEventListener('click', () => {
-  if (initialValue > 25) {
-    initialValue -= STEP;
+  if (initialScaleValue > 25) {
+    initialScaleValue -= scaleStep;
     updatePreview();
   }
 });
 
 zoomButton.addEventListener('click', () => {
-  if (initialValue < 100) {
-    initialValue += STEP;
+  if (initialScaleValue < 100) {
+    initialScaleValue += scaleStep;
     updatePreview();
   }
 });
@@ -82,12 +82,12 @@ const effects = {
 };
 
 const updateEffect = (filter) => {
-  if (filter === 'invert') {
-    uploadPreview.style.filter = `${filter}(${effectLevelValue.value}%)`;
-  } else if (filter === 'blur') {
-    uploadPreview.style.filter = `${filter}(${effectLevelValue.value}px)`;
+  const value = effectLevelValue.value;
+
+  if (filter === 'invert' || filter === 'blur') {
+    uploadPreviewImg.style.filter = `${filter}(${value}${filter === 'invert' ? '%' : 'px'})`;
   } else {
-    uploadPreview.style.filter = `${filter}(${effectLevelValue.value})`;
+    uploadPreviewImg.style.filter = `${filter}(${value})`;
   }
 };
 
@@ -112,13 +112,13 @@ effectList.addEventListener('change', (evt) => {
     effectLevelSlider.noUiSlider.set(100);
   } else {
     effectLevel.classList.add('hidden');
-    uploadPreview.style.filter = 'none';
+    uploadPreviewImg.style.filter = 'none';
   }
 });
 
 const resetValues = () => {
   effectLevelSlider.noUiSlider.reset();
-  initialValue = 100;
+  initialScaleValue = 100;
   uploadPreviewImg.style.transform = null;
 };
 
