@@ -20,6 +20,7 @@ const createPictureElementData = (picture) => {
 };
 
 const renderPictures = (pictures) => {
+  clearList();
   pictures.forEach((picture) => {
     const renderPicture = createPictureElementData(picture);
     dataListFragment.appendChild(renderPicture);
@@ -27,8 +28,8 @@ const renderPictures = (pictures) => {
   pictureList.appendChild(dataListFragment);
 };
 
-const clearList = () => {
-  document.querySelectorAll('.picture').forEach((element) => element.remove());
-};
+function clearList() {
+  document.querySelectorAll('a.picture').forEach((element) => element.remove());
+}
 
-export {renderPictures, clearList};
+export {renderPictures};

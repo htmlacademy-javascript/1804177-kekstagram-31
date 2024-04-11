@@ -16,7 +16,7 @@ const onDocumentKeydown = (evt) => {
     if (document.activeElement === hashtagInput || document.activeElement === commentInput) {
       evt.stopPropagation();
     } else {
-      closeUploadModal();
+      onCloseUploadModal();
     }
   }
 };
@@ -25,20 +25,20 @@ uploadInput.addEventListener('change', () => {
   if (uploadPhoto(uploadInput)) {
     uploadOverlay.classList.remove('hidden');
     document.body.classList.add('modal-open');
-    uploadCancel.addEventListener('click', closeUploadModal);
+    uploadCancel.addEventListener('click', onCloseUploadModal);
     document.addEventListener('keydown', onDocumentKeydown);
   }
 });
 
 
-function closeUploadModal() {
+function onCloseUploadModal() {
   uploadOverlay.classList.add('hidden');
   document.body.classList.remove('modal-open');
   document.removeEventListener('keydown', onDocumentKeydown);
-  uploadCancel.removeEventListener('click', closeUploadModal);
+  uploadCancel.removeEventListener('click', onCloseUploadModal);
   uploadForm.reset();
   resetErrors();
   resetValues();
 }
 
-export {closeUploadModal};
+export {onCloseUploadModal};
