@@ -1,5 +1,5 @@
 import {debounce} from './util.js';
-import {clearList, renderPictures} from './rendering.js';
+import {renderPictures} from './rendering.js';
 
 const FILTERS_CONTAINER = document.querySelector('.img-filters');
 const MAX_PICTURE_COUNT = 10;
@@ -36,7 +36,6 @@ const onFilterChange = (evt, pictures) => {
       filteredPictures = pictures;
   }
 
-  clearList();
   debounceRenderPictures(filteredPictures);
 };
 

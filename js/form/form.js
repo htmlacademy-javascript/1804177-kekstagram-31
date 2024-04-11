@@ -1,5 +1,5 @@
 import {sendData} from '../api.js';
-import {closeUploadModal} from './form-click-handler.js';
+import {onCloseUploadModal} from './form-click-handler.js';
 import {appendNotification} from './notification.js';
 
 const uploadForm = document.querySelector('#upload-select-image');
@@ -91,7 +91,7 @@ const sendForm = async (formElement) => {
     try {
       await sendData(new FormData(formElement));
       appendNotification(templateSuccess);
-      closeUploadModal();
+      onCloseUploadModal();
     } catch (error) {
       appendNotification(templateError);
     } finally {
@@ -100,14 +100,14 @@ const sendForm = async (formElement) => {
   }
 };
 
-const formSubmit = (evt) => {
+const onSubmitForm = (evt) => {
   evt.preventDefault();
   sendForm(evt.target);
 };
 
 pristine.addValidator(commentInput, isCommentLength, `длина комментария не может составлять больше ${MAX_SYMBOLS_COMMENTS} символов`);
 pristine.addValidator(hashtagsInput, isValidForm, errorMessage);
-uploadForm.addEventListener('submit', formSubmit);
+uploadForm.addEventListener('submit', onSubmitForm);
 
 const resetErrors = () => pristine.reset();
 

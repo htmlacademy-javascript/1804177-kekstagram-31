@@ -8,26 +8,32 @@ const reductionButton = document.querySelector('.scale__control--smaller');
 const zoomButton = document.querySelector('.scale__control--bigger');
 const scaleValue = document.querySelector('.scale__control--value');
 
-effectLevel.classList.add('hidden');
-let currentEffect;
-let initialScaleValue = 100;
+const maxValue = 100;
+const initialScalePercentage = 100;
+const zoomThreshold = 100;
+const reductionThreshold = 25;
 const scaleStep = 25;
 
+let currentValue = maxValue;
+let currentEffect;
+
+effectLevel.classList.add('hidden');
+
 const updatePreview = () => {
-  uploadPreviewImg.style.transform = `scale(${initialScaleValue / 100})`;
-  scaleValue.value = `${initialScaleValue}%`;
+  uploadPreviewImg.style.transform = `scale(${currentValue / initialScalePercentage})`;
+  scaleValue.value = `${currentValue}%`;
 };
 
 reductionButton.addEventListener('click', () => {
-  if (initialScaleValue > 25) {
-    initialScaleValue -= scaleStep;
+  if (currentValue > reductionThreshold) {
+    currentValue -= scaleStep;
     updatePreview();
   }
 });
 
 zoomButton.addEventListener('click', () => {
-  if (initialScaleValue < 100) {
-    initialScaleValue += scaleStep;
+  if (currentValue < zoomThreshold) {
+    currentValue += scaleStep;
     updatePreview();
   }
 });
@@ -53,7 +59,7 @@ noUiSlider.create(effectLevelSlider, {
   },
 });
 
-const effects = {
+const Effects = {
   chrome: {
     filter: 'grayscale',
     range: {min: 0, max: 1},
@@ -94,22 +100,22 @@ const updateEffect = (filter) => {
 effectLevelSlider.noUiSlider.on('update', () => {
   effectLevelValue.value = effectLevelSlider.noUiSlider.get();
   if (currentEffect) {
-    updateEffect(effects[currentEffect].filter);
+    updateEffect(Effects[currentEffect].filter);
   }
 });
 
 effectList.addEventListener('change', (evt) => {
   effectLevel.classList.remove('hidden');
-  if (effects[evt.target.value]) {
+  if (Effects[evt.target.value]) {
     currentEffect = evt.target.value;
     effectLevelSlider.noUiSlider.updateOptions({
       range: {
-        min: effects[currentEffect].range.min,
-        max: effects[currentEffect].range.max,
+        min: Effects[currentEffect].range.min,
+        max: Effects[currentEffect].range.max,
       },
-      step: effects[currentEffect].step
+      step: Effects[currentEffect].step
     });
-    effectLevelSlider.noUiSlider.set(100);
+    effectLevelSlider.noUiSlider.set(maxValue);
   } else {
     effectLevel.classList.add('hidden');
     uploadPreviewImg.style.filter = 'none';
@@ -118,7 +124,7 @@ effectList.addEventListener('change', (evt) => {
 
 const resetValues = () => {
   effectLevelSlider.noUiSlider.reset();
-  initialScaleValue = 100;
+  currentValue = maxValue;
   uploadPreviewImg.style.transform = null;
 };
 
