@@ -43,11 +43,10 @@ const renderComments = (currentComment) => {
 };
 
 const initialRenderComments = (currentComment) => {
-  const render = renderComments(currentComment);
-  renderHandler = render;
-  render();
-
-  socialCommentsLoader.addEventListener('click', render);
+  const renderCommentsHandler = renderComments(currentComment);
+  renderHandler = renderCommentsHandler;
+  renderCommentsHandler();
+  socialCommentsLoader.addEventListener('click', renderCommentsHandler);
 };
 
 const clearComments = () => {
